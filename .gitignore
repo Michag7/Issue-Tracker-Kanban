@@ -17,6 +17,8 @@ out/
 *.pem
 .env
 .env*.local
+!.env.example
+!.env.local.example
 
 # Debug
 npm-debug.log*

@@ -50,7 +50,10 @@ pnpm --filter @issue-tracker/config build
 # 3. Levantar PostgreSQL
 docker-compose up -d
 
-# 4. Configurar .env (ver sección siguiente)
+# 4. Configurar .env
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.local.example apps/web/.env.local
+# Editar si es necesario (valores por defecto funcionan)
 
 # 5. Migraciones
 pnpm --filter api prisma:generate
