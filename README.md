@@ -312,6 +312,16 @@ Ver Swagger para detalles completos: http://localhost:4000/docs
 
 ---
 
+## Limitaciones conocidas (y posibles mejoras futuras)
+
+- No se implementó realtime (WebSockets/SSE).
+- Falta un sistema de roles más granular.
+- No hay soporte para adjuntos.
+- Testing pendiente por tiempo de challenge.
+- Falta optimizar drag & drop para grandes volúmenes.
+
+---
+
 ## ��� Scripts
 
 ```bash
