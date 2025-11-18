@@ -2,7 +2,7 @@
 
 Sistema completo de gestiÃ³n de issues estilo Kanban con autenticaciÃ³n multi-tenant, drag & drop, y tracking de actividad.
 
-## íº€ Stack TecnolÃ³gico
+## ï¿½ï¿½ï¿½ Stack TecnolÃ³gico
 
 ### Frontend
 - **Next.js 14** (App Router)
@@ -30,7 +30,7 @@ Sistema completo de gestiÃ³n de issues estilo Kanban con autenticaciÃ³n multi-te
 
 ---
 
-## í³‹ InstalaciÃ³n
+## ï¿½ï¿½ï¿½ InstalaciÃ³n
 
 ### Prerrequisitos
 - Node.js >= 18
@@ -82,7 +82,7 @@ NEXT_PUBLIC_API_URL=http://localhost:4000
 
 ---
 
-## í¼ URLs
+## ï¿½ï¿½ï¿½ URLs
 
 - Frontend: http://localhost:3000
 - Backend: http://localhost:4000
@@ -91,7 +91,7 @@ NEXT_PUBLIC_API_URL=http://localhost:4000
 
 ---
 
-## í´ Credenciales de Prueba
+## ï¿½ï¿½ï¿½ Credenciales de Prueba
 
 | Rol | Email | Password |
 |-----|-------|----------|
@@ -103,7 +103,7 @@ NEXT_PUBLIC_API_URL=http://localhost:4000
 
 ---
 
-## í³š API Endpoints
+## ï¿½ï¿½ï¿½ API Endpoints
 
 ### AutenticaciÃ³n
 
@@ -263,7 +263,7 @@ Ver Swagger para detalles completos: http://localhost:4000/docs
 
 ---
 
-## í¿—ï¸ Decisiones TÃ©cnicas
+## ï¿½ï¿½ï¿½ï¸ Decisiones TÃ©cnicas
 
 ### Arquitectura
 1. **Monorepo**: CÃ³digo compartido, separaciÃ³n clara
@@ -298,7 +298,7 @@ Ver Swagger para detalles completos: http://localhost:4000/docs
 - âŒ Complejidad recalculo
 
 **Multi-tenant desde inicio**:
-- âœ… Escalable, demuestra skill
+- âœ… Escalable
 - âŒ Mayor complejidad
 
 **Custom i18n vs next-intl**:
@@ -307,7 +307,7 @@ Ver Swagger para detalles completos: http://localhost:4000/docs
 
 ---
 
-## íº€ Scripts
+## ï¿½ï¿½ï¿½ Scripts
 
 ```bash
 pnpm dev                    # Todo
@@ -320,7 +320,7 @@ pnpm --filter api prisma:studio  # DB viewer
 
 ---
 
-## í°³ Docker
+## ï¿½ï¿½ï¿½ Docker
 
 ```bash
 docker-compose up -d        # Levantar
@@ -331,7 +331,7 @@ docker-compose down -v      # Parar + limpiar
 
 ---
 
-## í³Š Datos Seed
+## ï¿½ï¿½ï¿½ Datos Seed
 
 - 1 org (Acme Inc.)
 - 3 usuarios (admin, 2 members)
@@ -340,7 +340,7 @@ docker-compose down -v      # Parar + limpiar
 
 ---
 
-## í´§ Troubleshooting
+## ï¿½ï¿½ï¿½ Troubleshooting
 
 **Puerto ocupado**:
 ```bash
@@ -363,7 +363,7 @@ pnpm --filter api prisma:generate
 
 ---
 
-## í³ Estructura Proyecto
+## ï¿½ï¿½ï¿½ Estructura Proyecto
 
 ```
 /
