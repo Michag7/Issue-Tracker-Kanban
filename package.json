@@ -1,0 +1,23 @@
+{
+  "name": "issue-tracker-kanban",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter api dev\" \"pnpm --filter web dev\"",
+    "build": "pnpm --filter api build && pnpm --filter web build",
+    "lint": "pnpm --filter \"./apps/**\" lint && pnpm --filter \"./packages/**\" lint",
+    "clean": "pnpm --parallel --filter \"./apps/**\" --filter \"./packages/**\" clean"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

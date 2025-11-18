@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String             @id @default(uuid())
+  email           String             @unique
+  password        String
+  name            String
+  avatar          String?
+  avatarUrl       String?            @map("avatar_url")
+  currentOrgId    String?            @map("current_org_id")
+  createdAt       DateTime           @default(now()) @map("created_at")
+  updatedAt       DateTime           @updatedAt @map("updated_at")
+  comments        Comment[]
+  sentInvitations Invitation[]       @relation("InvitedBy")
+  assignedIssues  Issue[]            @relation("Assignee")
+  reportedIssues  Issue[]            @relation("Reporter")
+  ownedOrgs       Organization[]     @relation("OrganizationOwner")
+  refreshTokens   RefreshToken[]
+  organizations   UserOrganization[]
+  currentOrg      Organization?      @relation("UserCurrentOrg", fields: [currentOrgId], references: [id])
+  issueHistory    IssueHistory[]
+
+  @@index([email])
+  @@index([currentOrgId])
+  @@map("users")
+}
+
+model Organization {
+  id           String             @id @default(uuid())
+  name         String
+  slug         String             @unique
+  ownerId      String             @map("owner_id")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
+  invitations  Invitation[]
+  issues       Issue[]
+  owner        User               @relation("OrganizationOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members      UserOrganization[]
+  currentUsers User[]             @relation("UserCurrentOrg")
+
+  @@index([slug])
+  @@index([ownerId])
+  @@map("organizations")
+}
+
+model UserOrganization {
+  userId       String       @map("user_id")
+  orgId        String       @map("org_id")
+  role         OrgRole      @default(MEMBER)
+  joinedAt     DateTime     @default(now()) @map("joined_at")
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, orgId])
+  @@index([userId])
+  @@index([orgId])
+  @@map("user_organizations")
+}
+
+model Invitation {
+  id           String           @id @default(uuid())
+  orgId        String           @map("org_id")
+  email        String
+  invitedById  String           @map("invited_by")
+  status       InvitationStatus @default(PENDING)
+  tok en        String           @unique
+  createdAt    DateTime         @default(now()) @map("created_at")
+  expiresAt    DateTime         @map("expires_at")
+  invitedBy    User             @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: Cascade)
+  organization Organization     @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([token])
+  @@index([orgId])
+  @@map("invitations")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@map("refresh_tokens")
+}
+
+model Issue {
+  id           String         @id @default(uuid())
+  title        String
+  description  String?
+  status       IssueStatus    @default(TODO)
+  priority     IssuePriority  @default(MEDIUM)
+  tags         String[]
+  dueDate      DateTime?      @map("due_date")
+  position     Int            @default(0)
+  reporterId   String         @map("reporter_id")
+  assigneeId   String?        @map("assignee_id")
+  orgId        String         @map("org_id")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  comments     Comment[]
+  history      IssueHistory[]
+  assignee     User?          @relation("Assignee", fields: [assigneeId], references: [id])
+  organization Organization   @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  reporter     User           @relation("Reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([reporterId])
+  @@index([assigneeId])
+  @@index([status])
+  @@index([orgId, status, position])
+  @@map("issues")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  issueId   String   @map("issue_id")
+  authorId  String   @map("author_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  issue     Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@index([issueId])
+  @@index([authorId])
+  @@map("comments")
+}
+
+model IssueHistory {
+  id           String   @id @default(uuid())
+  issueId      String   @map("issue_id")
+  actorId      String   @map("actor_id")
+  fieldChanged String   @map("field_changed")
+  oldValue     String?  @map("old_value")
+  newValue     String?  @map("new_value")
+  createdAt    DateTime @default(now()) @map("created_at")
+  actor        User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  issue        Issue    @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@index([issueId])
+  @@index([actorId])
+  @@map("issue_history")
+}
+
+enum OrgRole {
+  ADMIN
+  MEMBER
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum IssueStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum IssuePriority {
+  LOW
+  MEDIUM
+  HIGH
+}
