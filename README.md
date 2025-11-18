@@ -2,6 +2,8 @@
 
 Sistema completo de gestión de issues estilo Kanban con autenticación multi-tenant, drag & drop, y tracking de actividad.
 
+https://github.com/user-attachments/assets/fe7c48a6-987b-457b-8ab6-b34042a14519
+
 ## ��� Stack Tecnológico
 
 ### Frontend
